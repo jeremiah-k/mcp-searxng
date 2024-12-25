@@ -9,14 +9,23 @@ An [MCP server](https://modelcontextprotocol.io/introduction) implementation tha
 - **Web Search**: General queries, news, articles, with pagination.
 - **Pagination**: Control return size and result counts options.
 
-## Tools
+## Installation
 
-- **searxng_web_search**
-  - Execute web searches with pagination
-  - Inputs:
-    - `query` (string): Search terms
-    - `count` (number, optional): Results per page (default 20)
-    - `offset` (number, optional): Pagination offset (default 0)
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ihor-sokoliuk/mcp-searxng.git
+   cd mcp-searxng
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Build the project:
+   ```bash
+   npm run build
+   ```
 
 ## Configuration
 
@@ -26,18 +35,27 @@ An [MCP server](https://modelcontextprotocol.io/introduction) implementation tha
 2. Set the `SEARXNG_URL` environment variable to the instance URL.
 3. The default `SEARXNG_URL` value is `http://localhost:8080`.
 
-### Usage with Claude Desktop
+## Usage
 
-### NPX
+### Running the Server
+
+After installation and configuration, you can run the server using:
+
+```bash
+node dist/index.js
+```
+
+### MCP Configuration
+
+Add this to your MCP configuration file:
 
 ```json
 {
   "mcpServers": {
     "searxng": {
-      "command": "npx",
+      "command": "node",
       "args": [
-        "-y"
-        "<full path to mcp-searxng repo>/"
+        "/path/to/mcp-searxng/dist/index.js"
       ],
       "env": {
         "SEARXNG_URL": "YOUR_SEARXNG_INSTANCE_URL"
@@ -47,15 +65,37 @@ An [MCP server](https://modelcontextprotocol.io/introduction) implementation tha
 }
 ```
 
-### Docker
+### Tools
 
-#### Build
+- **searxng_web_search**
+  - Execute web searches with pagination
+  - Inputs:
+    - `query` (string): Search terms
+    - `count` (number, optional): Results per page (default 20)
+    - `offset` (number, optional): Pagination offset (default 0)
+
+## Troubleshooting
+
+### TypeScript Errors
+
+If you encounter errors running TypeScript files directly:
+1. Ensure you've run `npm install` to install all dependencies
+2. Build the project using `npm run build`
+3. Run the compiled JavaScript file from the `dist` directory
+
+### Environment Variables
+
+Make sure the `SEARXNG_URL` environment variable is properly set to a valid SearxNG instance URL.
+
+## Docker Usage
+
+### Build
 
 ```bash
 docker build -t mcp-server-searxng:latest -f Dockerfile .
 ```
 
-#### Use
+### Run
 
 Add this to your `claude_desktop_config.json`:
 
@@ -79,7 +119,6 @@ Add this to your `claude_desktop_config.json`:
   }
 }
 ```
-
 
 ## License
 
